@@ -1,0 +1,220 @@
+Import java.util.ArrayList; 
+import java.util.Scanner; 
+public class ElectricityBillingSystem { 
+private ArrayList<Customer> customers; 
+// Constructor 
+public ElectricityBillingSystem() { 
+customers = new ArrayList<>(); 
+} 
+// Add new customer 
+public void addCustomer(String name, String address, int meterNumber, double 
+consumption) { 
+Customer newCustomer = new Customer(name, address, meterNumber, 
+consumption); 
+newCustomer.calculateBill(); // Calculate the bill upon adding 
+customers.add(newCustomer); 
+System.out.println("Customer added successfully!"); 
+} 
+// Update customer information 
+public void updateCustomer(int meterNumber, double newConsumption) { 
+for (Customer customer : customers) { 
+if (customer.getMeterNumber() == meterNumber) { 
+customer.setConsumption(newConsumption); 
+15 
+customer.calculateBill(); 
+System.out.println("Customer updated successfully!"); 
+return; 
+} 
+} 
+System.out.println("Customer not found!"); 
+} 
+// Delete customer 
+public void deleteCustomer(int meterNumber) { 
+for (Customer customer : customers) { 
+if (customer.getMeterNumber() == meterNumber) { 
+customers.remove(customer); 
+System.out.println("Customer deleted successfully!"); 
+return; 
+} 
+} 
+System.out.println("Customer not found!"); 
+} 
+// Display all customers and their bills 
+public void displayAllCustomers() { 
+if (customers.isEmpty()) { 
+System.out.println("No customers to display."); 
+return; 
+} 
+for (Customer customer : customers) { 
+System.out.println("Customer Name: " + customer.getName()); 
+16 
+System.out.println("Address: " + customer.getAddress()); 
+System.out.println("Meter Number: " + customer.getMeterNumber()); 
+System.out.println("Consumption: " + customer.getConsumption() + " kWh"); 
+System.out.println("Bill Amount: $" + customer.getBillAmount()); 
+System.out.println(“Bill Amount: $" + customer.getBillAmount”) 
+} 
+} 
+public static void main(String[] args) { 
+Scanner scanner = new Scanner(System.in); 
+ElectricityBillingSystem system = new ElectricityBillingSystem(); 
+int choice; 
+// Main menu for the system 
+do { 
+System.out.println("Electricity Billing System"); 
+System.out.println("1. Add Customer"); 
+System.out.println("2. Update Customer Consumption"); 
+System.out.println("3. Delete Customer"); 
+System.out.println("4. Display All Customers"); 
+System.out.println("5. Exit"); 
+System.out.print("Enter your choice: "); 
+choice = scanner.nextInt(); 
+switch (choice) { 
+case 1: 
+System.out.print("Enter Customer Name: "); 
+String name = scanner.next(); 
+System.out.print("Enter Customer Address: "); 
+17 
+String address = scanner.next(); 
+System.out.print("Enter Meter Number: "); 
+int meterNumber = scanner.nextInt(); 
+System.out.print("Enter Consumption (in kWh): "); 
+double consumption = scanner.nextDouble(); 
+system.addCustomer(name, address, meterNumber, consumption); 
+break; 
+case 2: 
+System.out.print("Enter Meter Number to Update: "); 
+int updateMeter = scanner.nextInt(); 
+System.out.print("Enter New Consumption: "); 
+double newConsumption = scanner.nextDouble(); 
+system.updateCustomer(updateMeter, newConsumption); 
+break; 
+case 3: 
+System.out.print("Enter Meter Number to Delete: "); 
+int deleteMeter = scanner.nextInt(); 
+system.deleteCustomer(deleteMeter); 
+break; 
+case 4: 
+system.displayAllCustomers(); 
+break; 
+case 5: 
+System.out.println("Exiting the system. Goodbye!"); 
+break; 
+default: 
+System.out.println("Invalid choice, please try again."); 
+} 
+} while (choice != 5); 
+18 
+scanner.close(); 
+} 
+} 
+// Footer Section 
+JPanel buttonPanel = new JPanel(); 
+buttonPanel.setLayout(new GridLayout(2, 3, 10, 10)); 
+buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
+buttonPanel.setBackground(new Color(240, 240, 255)); 
+addButton = new JButton("Add Item"); 
+addButton.setBackground(new Color(102, 204, 255)); 
+updateButton = new JButton("Update Item"); 
+updateButton.setBackground(new Color(255, 204, 102)); 
+deleteButton = new JButton("Delete Item"); 
+deleteButton.setBackground(new Color(255, 102, 102)); 
+itemsLabel = new JLabel("Total Items: 0"); 
+costLabel = new JLabel("Total Cost: $0.00"); 
+buttonPanel.add(addButton); 
+buttonPanel.add(updateButton); 
+buttonPanel.add(deleteButton); 
+buttonPanel.add(new JLabel("")); 
+buttonPanel.add(itemsLabel); 
+buttonPanel.add(costLabel); 
+// Add components to the frame 
+add(inputPanel, BorderLayout.NORTH); 
+19 
+add(scrollPane, BorderLayout.CENTER); 
+add(buttonPanel, BorderLayout.SOUTH); 
+// Add button listeners 
+addButton.addActionListener(e -> addItem()); 
+updateButton.addActionListener(e -> updateItem()); 
+deleteButton.addActionListener(e -> deleteItem()); 
+} 
+private void addItem() { 
+String name = nameField.getText(); 
+String priceText = priceField.getText(); 
+String quantityText = quantityField.getText(); 
+if (name.isEmpty() || priceText.isEmpty() || quantityText.isEmpty()) { 
+JOptionPane.showMessageDialog(this, "All fields must be filled!"); 
+return; 
+} 
+try { 
+double price = Double.parseDouble(priceText); 
+int quantity = Integer.parseInt(quantityText); 
+tableModel.addRow(new Object[]{name, price, quantity}); 
+totalItems++; 
+totalCost += price * quantity; 
+itemsLabel.setText("Total Items: " + totalItems); 
+costLabel.setText("Total Cost: $" + String.format("%.2f", totalCost)); 
+20 
+clearFields(); 
+} catch (NumberFormatException e) { 
+JOptionPane.showMessageDialog(this, "Invalid input for price or quantity!"); 
+} 
+} 
+private void updateItem() { 
+int selectedRow = table.getSelectedRow(); 
+if (selectedRow == -1) { 
+JOptionPane.showMessageDialog(this, "Select a row to update!"); 
+return; 
+} 
+String name = nameField.getText(); 
+String priceText = priceField.getText(); 
+String quantityText = quantityField.getText(); 
+if (name.isEmpty() || priceText.isEmpty() || quantityText.isEmpty()) { 
+JOptionPane.showMessageDialog(this, "All fields must be filled!"); 
+return; 
+} 
+try { 
+double price = Double.parseDouble(priceText); 
+int quantity = Integer.parseInt(quantityText); 
+tableModel.setValueAt(name, selectedRow, 0); 
+tableModel.setValueAt(price, selectedRow, 1); 
+tableModel.setValueAt(quantity, selectedRow, 2); 
+21 
+recalculateTotals(); 
+clearFields(); 
+} catch (NumberFormatException e) { 
+JOptionPane.showMessageDialog(this, "Invalid input for price or quantity!"); 
+} 
+} 
+private void deleteItem() { 
+int selectedRow = table.getSelectedRow(); 
+if (selectedRow == -1) { 
+JOptionPane.showMessageDialog(this, "Select a row to delete!"); 
+return; 
+} 
+tableModel.removeRow(selectedRow); 
+totalItems--; 
+recalculateTotals(); 
+itemsLabel.setText("Total Items: " + totalItems); 
+costLabel.setText("Total Cost: $" + String.format("%.2f", totalCost)); 
+} 
+private void recalculateTotals() { 
+totalCost = 0; 
+for (int i = 0; i < tableModel.getRowCount(); i++) { 
+double price = (double) tableModel.getValueAt(i, 1); 
+int quantity = (int) tableModel.getValueAt(i, 2); 
+totalCost += price * quantity; 
+22 
+} 
+itemsLabel.setText("Total Items: " + totalItems); 
+costLabel.setText("Total Cost: $" + String.format("%.2f", totalCost)); 
+} 
+private void clearFields() { 
+nameField.setText(""); 
+priceField.setText(""); 
+quantityField.setText(""); 
+} 
+public static void main(String[] args) { 
+SwingUtilities.invokeLater(() -> new 
+InventoryManagementSystem().setVisible(true)); 
+} 
+} 
